@@ -2,7 +2,7 @@ version: '3'
 
 services:
   golang:
-    container_name: golang
+    container_name: golang-sudoku
     build:
       context: .
       dockerfile: ../golang/Dockerfile
