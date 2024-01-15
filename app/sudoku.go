@@ -85,6 +85,49 @@ func verify(b Board) bool {
 	return true
 }
 
+func solved(b Board) bool {
+	if !verify(b) {
+		return false
+	}
+
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			if b[i][j] == 0 {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+
+// backtrace
+func backtrack(b *Board) bool {
+	if solved(*b) {
+		return true
+	}
+
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			// ますが0
+			if b[i][j] == 0 {
+				for c := 9; c >= 1; c-- {
+					b[i][j] = c
+					// もし数字がルールに適合するなら
+					if verify(*b) {
+						// さらに深く検索する
+						if backtrack(b) {
+							return true
+						}
+					}
+ 				}
+ 			}
+		}
+	}
+
+	return false
+}
+
 func main() {
 	b := Board{
 		{0, 0, 0, 0, 0, 0, 0, 0, 0},
