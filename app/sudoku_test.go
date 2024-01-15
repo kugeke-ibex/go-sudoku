@@ -47,6 +47,14 @@ func TestShortInput(t *testing.T) {
 	if reflect.DeepEqual(b, expected) {
 		t.Fatalf("want %v, got %v", expected, b)
 	}
+
+	{
+		b, err := short(".")
+		if b != nil {
+			t.Fatalf("board should b nil: %s", err)
+		}
+
+	}
 }
 
 func TestDuplicated(t *testing.T) {
