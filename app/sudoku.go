@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"strconv"
+	"strings"
+	// "time"
 )
 
 // Boardはsudokuのboardを示す
@@ -100,9 +103,11 @@ func solved(b Board) bool {
 	return true
 }
 
-
 // backtrace
 func backtrack(b *Board) bool {
+	// time.Sleep(time.Second * 1)
+	// fmt.Printf("%+v\n", pretty(*b))
+
 	if solved(*b) {
 		return true
 	}
@@ -121,14 +126,42 @@ func backtrack(b *Board) bool {
 						}
 					}
 					b[i][j] = 0
- 				}
+				}
 				return false
- 			}
+			}
 		}
 	}
 
 	return false
 }
+
+// input : .5..83.17...1..4..3.4..56.8....3...9.9.8245....6....7...9....5...729..861.36.72.4
+func short(input string) (*Board, error) {
+	s := bufio.NewScanner(strings.NewReader(input))
+
+	s.Split(bufio.ScanRunes)
+	var b Board
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			if !s.Scan() {
+				break
+			}
+			token := s.Text()
+			if token == "." {
+				b[i][j] = 0
+				continue
+			}
+			n, err := strconv.Atoi(token)
+			if err != nil {
+				return nil, err
+			}
+			b[i][j] = n
+		}
+	}
+
+	return &b, nil
+}
+
 
 func main() {
 	b := Board{
@@ -142,5 +175,6 @@ func main() {
 		{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0},
 	}
+
 	fmt.Printf("%v", pretty(b))
 }
