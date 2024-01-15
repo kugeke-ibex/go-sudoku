@@ -4,7 +4,9 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
+	"flag"
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 	// "time"
@@ -168,17 +170,17 @@ func short(input string) (*Board, error) {
 
 
 func main() {
-	b := Board{
-		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+	flag.Parse()
+	input := flag.Arg(0)
+
+	b, err := short(input)
+	if err != nil {
+		panic(err)
 	}
 
-	fmt.Printf("%v", pretty(b))
+	if backtrack(b) {
+		fmt.Println(pretty(*b))
+	} else {
+		fmt.Fprint(os.Stderr, "cannot solve")
+	}
 }
