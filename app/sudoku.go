@@ -120,7 +120,9 @@ func backtrack(b *Board) bool {
 							return true
 						}
 					}
+					b[i][j] = 0
  				}
+				return false
  			}
 		}
 	}
